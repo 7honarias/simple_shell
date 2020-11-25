@@ -47,3 +47,33 @@ int read_line(char **input)
 
 	return (char_read);
 }
+
+/**
+ * tokenize_line - the string be will separate and be stored in the array
+ * @line: input to break
+ * @tokens: pointer to array
+ * Return: tokens number
+ */
+
+static int tokenize_line(char *line, char ***tokens)
+{
+	strip_line(line);
+
+	*tokens = malloc(sizeof(char *) * TOKEN_LIMIT);
+
+	const char *delim = " ";
+	char *token = strtok(line, delim);
+	int num_tokens = 0;
+
+	while (token)
+	{
+		(*tokens)[num_tokens++] = token;
+
+		if (num_tokens == TOKEN_LIMIT)
+			return (-1);
+
+		token = strtok(NULL, delim);
+	}
+
+	return (num_tokens);
+}
