@@ -95,5 +95,5 @@ $
 
 ## Authors
 * **Nelson Arevalo** - [NelsonarevaloF](https://github.com/NelsonarevaloF/)
-* **Gabriel Cifuentes** - [gcifuentess](https://github.com/7honarias/)
+* **Jhon Arias** - [7honarias](https://github.com/7honarias/)
 
