@@ -77,3 +77,53 @@ static int tokenize_line(char *line, char ***tokens)
 
 	return (num_tokens);
 }
+
+/**
+ * eval - manager the input and execute program
+ * @input: string with the program to execute
+ * Return: 0, 1 or -1 if fail
+ */
+
+int eval(char *input)
+{
+	char **tokens;
+	char *input_dup = _strdup(input);
+	int num_tokens = tokenize_line(input_dup, &tokens);
+	pid_t pid;
+
+	if (num_tokens == 0)
+	{
+		free(input);
+		free(tokens);
+		free(input_dup);
+		return (0);
+	}
+	if (num_tokens < 0)
+	{
+		free(input);
+		free(tokens);
+		free(input_dup);
+		printf("Huge number of tokens\n");
+		return (-1);
+	}
+
+	pid = fork();
+
+	if (pid > 0)
+	{
+		int status;
+
+		waitpid(pid, &status, 0);
+		free(input);
+		free(input_dup);
+		free(tokens);
+		if (WIFEXITED(status))
+			return (0);
+		else
+			return (1);
+	}
+	else
+	{
+		execve(tokens[0], tokens, NULL);
+	}
+}
