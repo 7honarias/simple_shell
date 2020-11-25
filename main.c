@@ -21,9 +21,7 @@ int main(void)
 /* eval*/
 		err = eval(input);
 /* loop*/
-	}
-	while (!err)
-	{
-	}
+	} while (!err);
+
 	return (0);
 }

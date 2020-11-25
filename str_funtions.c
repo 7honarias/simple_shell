@@ -1,3 +1,4 @@
+#include "shell.h"
 /**
  * _strlen - return the length the a string
  * @s: is the pointer the variable "n"
