@@ -23,3 +23,27 @@ static void strip_line(char *line)
 	if (line[end] == '\n')
 		line[end] = '\0';
 }
+
+/**
+ * print_prompt - prints the prompt
+ * Return: no return
+ */
+
+void print_prompt(void)
+{
+	printf("$ ");
+}
+
+/**
+ * read_line - read the line from the standar input
+ * @input: string when the input will be stored
+ * Return: no return
+ */
+
+int read_line(char **input)
+{
+	size_t len;
+	int char_read = getline(input, &len, stdin);
+
+	return (char_read);
+}
