@@ -25,16 +25,6 @@ void strip_line(char *line)
 }
 
 /**
- * print_prompt - prints the prompt
- * Return: no return
- */
-
-void print_prompt(void)
-{
-	printf("$ ");
-}
-
-/**
  * read_line - read the line from the standar input
  * @input: string when the input will be stored
  * Return: no return

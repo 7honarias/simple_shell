@@ -9,7 +9,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #define TOKEN_LIMIT 1024
-void print_prompt(void);
 int read_line(char **input);
 void strip_line(char *line);
 int tokenize_line(char *line, char ***tokens);
