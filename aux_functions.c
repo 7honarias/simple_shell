@@ -76,10 +76,11 @@ int tokenize_line(char *line, char ***tokens)
 /**
  * eval - manager the input and execute program
  * @input: string with the program to execute
+ * @name: name of file
  * Return: 0, 1 or -1 if fail
  */
 
-int eval(char *input)
+int eval(char *input, char *name)
 {
 	char **tokens;
 	char *input_dup = _strdup(input);
@@ -115,7 +116,8 @@ int eval(char *input)
 	}
 	else
 	{
-		execve(tokens[0], tokens, NULL);
+		if (execve(tokens[0], tokens, NULL))
+			print_error(name);
 	}
 	return (0);
 }

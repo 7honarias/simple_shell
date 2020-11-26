@@ -1,9 +1,11 @@
 #include "shell.h"
 /**
  * main - funtion main
+ * @argc: number of arguments but for now not passed arguments
+ * @argv: the array of pointers to fill with set_argv
  * Return: Always 0
  */
-int main(void)
+int main(int argc, char *argv[])
 {
 	int err = 0;
 	char *input = 0;
@@ -23,10 +25,11 @@ int main(void)
 			exit(EXIT_SUCCESS);
 		}
 /* eval*/
-		err = eval(input);
+		err = eval(input, argv[0]);
 		free(input);
 /* loop*/
 	} while (!err);
 
+	(void)argc;
 	return (0);
 }
