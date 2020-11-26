@@ -108,7 +108,6 @@ int eval(char *input)
 	{
 		free(tokens);
 		free(input_dup);
-		printf("Huge number of tokens\n");
 		return (-1);
 	}
 

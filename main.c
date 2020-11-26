@@ -10,13 +10,17 @@ int main(void)
 
 	do {
 		input = 0;
-		print_prompt();
+		/*print_prompt();*/
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
 /* read*/
 		err = read_line(&input);
 		if (err < 0)
 		{
 			free(input);
-			break;
+			if (isatty(STDIN_FILENO))
+				write(1, "\n", 1);
+			exit(EXIT_SUCCESS);
 		}
 /* eval*/
 		err = eval(input);
