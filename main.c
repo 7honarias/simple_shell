@@ -6,12 +6,11 @@
 int main(void)
 {
 	int err = 0;
+	char *input = 0;
 
 	do {
 		print_prompt();
 /* read*/
-		char *input = 0;
-
 		err = read_line(&input);
 		if (err < 0)
 		{

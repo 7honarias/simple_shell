@@ -6,7 +6,7 @@
  * Return: no return
  */
 
-static void strip_line(char *line)
+void strip_line(char *line)
 {
 	size_t len = _strlen(line);
 	size_t end = len - 1;
@@ -55,16 +55,15 @@ int read_line(char **input)
  * Return: tokens number
  */
 
-static int tokenize_line(char *line, char ***tokens)
+int tokenize_line(char *line, char ***tokens)
 {
-	strip_line(line);
-
-	*tokens = malloc(sizeof(char *) * TOKEN_LIMIT);
 
 	const char *delim = " ";
 	char *token = strtok(line, delim);
 	int num_tokens = 0;
 
+	strip_line(line);
+	*tokens = malloc(sizeof(char *) * TOKEN_LIMIT);
 	while (token)
 	{
 		(*tokens)[num_tokens++] = token;
@@ -90,6 +89,8 @@ int eval(char *input)
 	char *input_dup = _strdup(input);
 	int num_tokens = tokenize_line(input_dup, &tokens);
 	pid_t pid;
+	int status;
+
 
 	if (num_tokens == 0)
 	{
@@ -111,8 +112,6 @@ int eval(char *input)
 
 	if (pid > 0)
 	{
-		int status;
-
 		waitpid(pid, &status, 0);
 		free(input);
 		free(input_dup);
@@ -126,4 +125,5 @@ int eval(char *input)
 	{
 		execve(tokens[0], tokens, NULL);
 	}
+	return (0);
 }
