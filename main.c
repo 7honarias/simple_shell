@@ -9,6 +9,7 @@ int main(void)
 	char *input = 0;
 
 	do {
+		input = 0;
 		print_prompt();
 /* read*/
 		err = read_line(&input);
@@ -19,6 +20,7 @@ int main(void)
 		}
 /* eval*/
 		err = eval(input);
+		free(input);
 /* loop*/
 	} while (!err);
 

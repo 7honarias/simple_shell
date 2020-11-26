@@ -42,8 +42,10 @@ void print_prompt(void)
 
 int read_line(char **input)
 {
-	size_t len;
-	int char_read = getline(input, &len, stdin);
+	size_t len = 50;
+	int char_read = 0;
+
+	char_read = getline(input, &len, stdin);
 
 	return (char_read);
 }
@@ -57,13 +59,17 @@ int read_line(char **input)
 
 int tokenize_line(char *line, char ***tokens)
 {
-
-	const char *delim = " ";
-	char *token = strtok(line, delim);
-	int num_tokens = 0;
+	const char *delim;
+	char *token;
+	int num_tokens;
 
 	strip_line(line);
+	delim = " ";
+	token = strtok(line, delim);
+	num_tokens = 0;
+
 	*tokens = malloc(sizeof(char *) * TOKEN_LIMIT);
+	/**tokens = calloc(TOKEN_LIMIT, sizeof(char *));*/
 	while (token)
 	{
 		(*tokens)[num_tokens++] = token;
@@ -94,14 +100,12 @@ int eval(char *input)
 
 	if (num_tokens == 0)
 	{
-		free(input);
 		free(tokens);
 		free(input_dup);
 		return (0);
 	}
 	if (num_tokens < 0)
 	{
-		free(input);
 		free(tokens);
 		free(input_dup);
 		printf("Huge number of tokens\n");
@@ -113,7 +117,6 @@ int eval(char *input)
 	if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		free(input);
 		free(input_dup);
 		free(tokens);
 		if (WIFEXITED(status))
