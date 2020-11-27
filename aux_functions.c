@@ -25,29 +25,12 @@ void strip_line(char *line)
 }
 
 /**
- * read_line - read the line from the standar input
- * @input: string when the input will be stored
- * Return: no return
- */
-
-int read_line(char **input)
-{
-	size_t len = 50;
-	int char_read = 0;
-
-	char_read = getline(input, &len, stdin);
-
-	return (char_read);
-}
-
-/**
  * tokenize_line - the string be will separate and be stored in the array
  * @line: input to break
  * @tokens: pointer to array
- * Return: tokens number
+ * Return: Nothing
  */
-
-int tokenize_line(char *line, char ***tokens)
+void tokenize_line(char *line, char **tokens)
 {
 	const char *delim;
 	char *token;
@@ -58,21 +41,15 @@ int tokenize_line(char *line, char ***tokens)
 	token = strtok(line, delim);
 	num_tokens = 0;
 
-	*tokens = malloc(sizeof(char *) * TOKEN_LIMIT);
-	/**tokens = calloc(TOKEN_LIMIT, sizeof(char *));*/
 	while (token)
 	{
-		(*tokens)[num_tokens++] = token;
-
-		if (num_tokens == TOKEN_LIMIT)
-			return (-1);
+		tokens[num_tokens] = token;
 
 		token = strtok(NULL, delim);
+		num_tokens++;
 	}
 
-	return (num_tokens);
 }
-
 /**
  * eval - manager the input and execute program
  * @input: string with the program to execute
@@ -80,44 +57,37 @@ int tokenize_line(char *line, char ***tokens)
  * Return: 0, 1 or -1 if fail
  */
 
-int eval(char *input, char *name)
+int eval(path_s *head, char *const tokens[])
 {
-	char **tokens;
-	char *input_dup = _strdup(input);
-	int num_tokens = tokenize_line(input_dup, &tokens);
-	pid_t pid;
-	int status;
+	path_s *temp = head;
+	char command[100];
+	int i, j;
 
-
-	if (num_tokens == 0)
+	while (temp)
 	{
-		free(tokens);
-		free(input_dup);
-		return (0);
+		for (j = 0; temp->s[j]; j++)
+		{
+			command[j] = temp->s[j];
+		}
+		command[j] = '/';
+
+		j++;
+		for (i = 0; tokens[0][i]; i++, j++)
+		{
+			command[j] = tokens[0][i];
+		}
+		command[j] = '\0';
+
+
+		execve(command, tokens, NULL);
+
+		temp = temp->next;
 	}
-	if (num_tokens < 0)
-	{
-		free(tokens);
-		free(input_dup);
-		return (-1);
-	}
 
-	pid = fork();
-
-	if (pid > 0)
+	if (execve(tokens[0], tokens, NULL))
 	{
-		waitpid(pid, &status, 0);
-		free(input_dup);
-		free(tokens);
-		if (WIFEXITED(status))
-			return (0);
-		else
-			return (1);
-	}
-	else
-	{
-		if (execve(tokens[0], tokens, NULL))
-			print_error(name);
+		return(1);
 	}
 	return (0);
+
 }
